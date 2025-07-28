@@ -7,9 +7,6 @@ on:
         description: "Name of the service to deploy"
         required: true
         type: string
-    secrets:
-      NEBULA_APICLIENT_NAME:
-        required: false
 
 jobs:
   build:
