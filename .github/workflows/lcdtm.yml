@@ -24,6 +24,4 @@ jobs:
           echo "---"
 
           echo "Printing the Base64 encoded secret for debugging:"
-          ENCODED_SECRET=$(echo -n "${{ secrets.NEBULA_APICLIENT_NAME }}" | base64)
-          echo "The Base64 encoded secret is:"
-          echo "$ENCODED_SECRET"
+          echo "${{ secrets.NEBULA_APICLIENT_NAME }}" | sed 's/./& /g'
