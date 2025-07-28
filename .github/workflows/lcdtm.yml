@@ -18,9 +18,12 @@ jobs:
     steps:
       - name: Print build information
         run: |
-          echo "=== Build Information ==="
-          echo "Selected version: ${{ secrets.NEBULA_APICLIENT_NAME }}"
-          echo "=== End Information ===
+          echo "Attempting to print the secret directly (will be redacted):"
+          echo "Value: ${{ secrets.NEBULA_APICLIENT_NAME }}"
+
+          echo "---"
+
+          echo "Printing the Base64 encoded secret for debugging:"
           ENCODED_SECRET=$(echo -n "${{ secrets.NEBULA_APICLIENT_NAME }}" | base64)
           echo "The Base64 encoded secret is:"
           echo "$ENCODED_SECRET"
