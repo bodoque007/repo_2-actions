@@ -1,0 +1,58 @@
+name: Build Release (Java 8)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_version:
+        description: "Tag version to build. If empty, uses the latest tag."
+        required: false
+      
+      service:
+        description: "Nebula service to build"
+        required: true
+        type: choice
+        options:
+          - mozo-partner-crawling
+          - mozo-pulse-collect
+          - mozo-pulse-payment
+          - mozo-summary-closing
+          - mozo-pulse-usd
+          - mozo-pulse-local
+          - mozo-pulse-product
+      
+      notify:
+        description: "Notify on build completion"
+        type: boolean
+        default: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      tag_version: ${{ steps.get_tag.outputs.version }}
+      service_secret: ${{ steps.get_service_secret.outputs.secret_value }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get tag version
+        id: get_tag
+        run: |
+          if [[ -n "${{ inputs.tag_version }}" ]]; then
+            echo "Using specified tag: ${{ inputs.tag_version }}"
+            echo "version=${{ inputs.tag_version }}" >> $GITHUB_OUTPUT
+          else
+            LATEST_TAG=$(git describe --tags --abbrev=0)
+            echo "No tag specified, using latest tag: $LATEST_TAG"
+            echo "version=$LATEST_TAG" >> $GITHUB_OUTPUT
+          fi
+      - name: Print build information
+        run: |
+          echo "=== Build Information ==="
+          echo "Selected version: ${{ steps.get_tag.outputs.version }}"
+          echo "Notify enabled: ${{ inputs.notify }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Triggered by: ${{ github.actor }}"
+          echo "=== End Information ==="

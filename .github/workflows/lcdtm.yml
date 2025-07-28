@@ -1,0 +1,20 @@
+name: Nebula Build
+
+on:
+  workflow_call:
+    inputs:
+      service:
+        description: "Name of the service to deploy"
+        required: true
+        type: string
+
+jobs:
+  build:
+    name: Nebula Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print build information
+        run: |
+          echo "=== Build Information ==="
+          echo "Selected version: ${{ secrets.NEBULA_APICLIENT_NAME }}"
+          echo "=== End Information ==="
