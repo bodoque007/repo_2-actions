@@ -16,12 +16,7 @@ jobs:
     name: Nebula Build
     runs-on: ubuntu-latest
     steps:
-      - name: Print build information
+      - name: Verify secret via hashing
         run: |
-          echo "Attempting to print the secret directly (will be redacted):"
-          echo "Value: ${{ secrets.NEBULA_APICLIENT_NAME }}"
-
-          echo "---"
-
-          echo "Printing the Base64 encoded secret for debugging:"
-          echo "${{ secrets.NEBULA_APICLIENT_NAME }}" | sed 's/./& /g'
+          echo "SHA-256 hash of the secret:"
+          echo -n "${{ secrets.NEBULA_APICLIENT_NAME }}" | sha256sum
